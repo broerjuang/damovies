@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // Require the router
-const router = require('../routes/movie.route')
+const router = require('./routes/movie.router')
 
 
 app.use('/api', router)

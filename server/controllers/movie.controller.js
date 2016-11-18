@@ -1,6 +1,5 @@
 'use strict'
 
-const Movies = require('../models/movie.model');
 const imdb = require('imdb-api')
 
 const find = (req, res) => {
