@@ -7,16 +7,16 @@ const imdb = require('imdb-api')
 
 const app = express()
 
-var movie;
+// Use bodyParser
+app.use(cors())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
-app.use('/api/movies', (req, res) => {
-  imdb.getReq({ name: 'lolita' }, function(err, things) {
-      movie = things;
-  });
-  let test = JSON.parse(JSON.stringify(movie))
-  console.log(test.title);
-  res.send(movie)
-})
+// Require the router
+const router = require('../routes/movie.route')
+
+
+app.use('/api', router)
 
 app.listen(3000, () => {
   console.log('server is running on port 3000');
