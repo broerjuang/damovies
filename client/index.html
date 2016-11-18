@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Movie</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- jquery -->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.1.1.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- animated css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <!-- custome css -->
+    <style media="screen">
+      body{
+        background-color: black;
+      }
+
+      .font-title{
+        font-size: 64pt;
+        font-weight: 900;
+        font-family: arial;
+      }
+
+      .group-search{
+        margin-top: 15%;
+      }
+
+      .search-input-size{
+        width: 50%;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      #search-input{
+        font-size: 22pt;
+        font-weight: 50;
+      }
+      #movieItem{
+        margin-top: 30px;
+      }
+
+    </style>
+  </head>
+  <body>
+
+  <div class="container">
+    <div class="group-search">
+      <H1 class="text-center font-title" id="logo-title">MOVIEW</H1>
+      <div class="text-center">
+        <input class="text-center search-input-size form-control" type="text" id="search-input" placeholder="Search your movie here">
+      </div>
+    </div>
+
+    <!-- movie item -->
+    <div id="movieItem"></div>
+  </div>
+
+  <script type="text/javascript">
+
+
+   $('#search-input').keypress(function (e) {
+      if (e.which == 13) {
+        searchMovie()
+      }
+    });
+
+  function searchMovie(){
+    $.ajax({
+      url:  "http://localhost:3000/api/movies",
+      method: 'post',
+      contentType: 'application/x-www-form-urlencoded',
+      data : {
+        title : $('#search-input').val()
+      },
+      success: function(data) {
+        console.log(data);
+        $('#removeMoview').remove()
+        var moviewHTML = "";
+        moviewHTML =
+        `
+        <div id="removeMoview">
+          <div class="col-sm-4"></div>
+          <div class="col-sm-4">
+            <h1 class="text-center">${data.title}</h1>
+          </div>
+          <div class="col-sm-4"></div>
+        </div>
+        `
+        $('#movieItem').append(moviewHTML);
+      },
+      error: function(err){
+      }
+    })
+  } // create data function
+
+
+  // css animated
+  $.fn.extend({
+      animateCss: function (animationName) {
+          var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+          this.addClass('animated ' + animationName).one(animationEnd, function() {
+              $(this).removeClass('animated ' + animationName);
+          });
+      }
+  });
+
+  $('#logo-title').animateCss('zoomInDown');
+  $('#search-input').animateCss('zoomIn');
+
+  </script>
+  </body>
+</html>
