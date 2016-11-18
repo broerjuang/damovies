@@ -42,6 +42,14 @@
       #movieItem{
         margin-top: 30px;
       }
+      .thumbnail {
+        background-color: #000;
+        border: none;
+        color: #fff;
+      }
+      p, h2{
+        color: #fff;
+      }
 
     </style>
   </head>
@@ -77,20 +85,34 @@
         title : $('#search-input').val()
       },
       success: function(data) {
-        console.log(data);
-        $('#removeMoview').remove()
-        var moviewHTML = "";
-        moviewHTML =
-        `
-        <div id="removeMoview">
-          <div class="col-sm-4"></div>
-          <div class="col-sm-4">
-            <h1 class="text-center">${data.title}</h1>
+        if (data.title == undefined) {
+          console.log('catch')
+        } else {
+          $('#removeMoview').remove()
+          var moviewHTML = "";
+          moviewHTML =
+          `
+          <div id="removeMoview">
+            <div class="col-sm-4"></div>
+            <div class="col-sm-4">
+              <div class="thumbnail">
+                <img src="${data.poster}" alt="...">
+                <div class="caption">
+                  <h2 class="text-center">${data.title}</h2>
+                  <p class="text-center">${data.year}</p>
+                  <p class="text-center">${data.rated}</p>
+                  <p class="text-center">${data.plot}</p>
+                  <p><a href="#" class="btn btn-primary" role="button">Tell your frend</a></p>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-sm-4"></div>
           </div>
-          <div class="col-sm-4"></div>
-        </div>
-        `
-        $('#movieItem').append(moviewHTML);
+          `
+          $('#movieItem').append(moviewHTML);
+        }
+
       },
       error: function(err){
       }
